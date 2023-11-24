@@ -7,7 +7,7 @@ export interface AuthLayoutProps {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => (
   <div className='flex flex-col sm:h-screen'>
-    <Card variant={{ initial: 'dense', sm: 'outlined' }} className='m-auto sm:max-w-sm w-full'>
+    <Card variant='outlined' className='m-auto sm:max-w-sm w-full border-0 sm:border'>
       {children}
     </Card>
   </div>

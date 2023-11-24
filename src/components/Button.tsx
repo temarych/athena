@@ -1,72 +1,55 @@
 'use client';
 
 import { ButtonHTMLAttributes, forwardRef } from 'react';
-import { VariantProps, tv }                 from 'tailwind-variants';
+import { fromSelectors, mergeStyles }       from '@/utils/style';
 
-export const button = tv({
-  variants: {
-    color: {
-      blue: '',
-      gray: ''
-    },
-    radius: {
-      sm: 'rounded-sm',
-      md: 'rounded-md',
-      lg: 'rounded-lg'
-    },
-    size: {
-      sm: 'text-sm h-8 px-2',
-      md: 'text-md h-10 px-3',
-      lg: 'text-lg h-12 px-4',
-    },
-    variant: {
-      contained: '',
-      outlined : 'border'
-    }
-  },
-  defaultVariants: {
-    color  : 'blue',
-    focus  : 'blue',
-    radius : 'md',
-    size   : 'md',
-    variant: 'contained'
-  },
-  compoundVariants: [
-    // Blue
-    { color: 'blue', variant: 'contained', class: 'text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700' },
-    { color: 'blue', variant: 'outlined', class: 'text-blue-500 border-blue-500 hover:bg-blue-50 active:bg-blue-100' },
+export interface ButtonVariance {
+  color  : 'red' | 'blue' | 'gray';
+  radius : 'sm' | 'md' | 'lg';
+  size   : 'sm' | 'md' | 'lg';
+  variant: 'contained' | 'outlined';
+}
 
-    // Gray
-    { color: 'gray', variant: 'outlined', class: 'text-gray-500 border-gray-500 hover:bg-gray-50 active:bg-gray-100' },
-    { color: 'gray', variant: 'outlined', class: 'text-gray-500 border-gray-200 hover:bg-gray-50 active:bg-gray-100' },
-  ]
-});
+const getStyle = fromSelectors<ButtonVariance>([
+  // Radius
+  { radius: 'sm', style: 'rounded-sm' },
+  { radius: 'md', style: 'rounded-md' },
+  { radius: 'lg', style: 'rounded-lg' },
+  
+  // Size
+  { size: 'sm', style: 'text-sm h-8 px-2' },
+  { size: 'md', style: 'text-md h-10 px-3' },
+  { size: 'lg', style: 'text-lg h-12 px-4' },
 
-export type ButtonBaseProps    = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'>;
-export type ButtonVariantProps = VariantProps<typeof button>;
+  // Outlined
+  { variant: 'outlined', style: 'border' },
 
-export type ButtonProps = ButtonBaseProps & ButtonVariantProps;
+  // Blue
+  { color: 'blue', variant: 'contained', style: 'text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700' },
+  { color: 'blue', variant: 'outlined', style: 'text-blue-500 border-blue-500 hover:bg-blue-50 active:bg-blue-100' },
+
+  // Gray
+  { color: 'gray', variant: 'outlined', style: 'text-gray-500 border-gray-500 hover:bg-gray-50 active:bg-gray-100' },
+  { color: 'gray', variant: 'outlined', style: 'text-gray-500 border-gray-200 hover:bg-gray-50 active:bg-gray-100' },
+]);
+
+export type ButtonBaseProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'>;
+export type ButtonProps     = ButtonBaseProps & Partial<ButtonVariance>;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   children, 
-  color,
-  size,
-  radius,
-  variant,
+  color   = 'blue',
+  size    = 'md',
+  radius  = 'md',
+  variant = 'contained',
   ...props
-}, ref) => (
-  <button
-    {...props}
-    ref       = {ref}
-    className = {button({
-      color,
-      size,
-      radius,
-      variant,
-      className
-    })}
-  >
-    {children}
-  </button>
-));
+}, ref) => {
+  const variance = { color, size, radius, variant };
+
+  return (
+    <button {...props} ref={ref} className={mergeStyles(getStyle(variance), className)}>
+      {children}
+    </button>
+  );
+});

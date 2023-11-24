@@ -1,35 +1,26 @@
 'use client';
 
-import { ReactNode }        from 'react';
-import { VariantProps, tv } from 'tailwind-variants';
+import { ReactNode }                  from 'react';
+import { fromSelectors, mergeStyles } from '@/utils/style';
 
-export const card = tv({
-  variants: {
-    color: {
-      gray: 'border-gray-200'
-    },
-    radius: {
-      sm: 'rounded-sm',
-      md: 'rounded-md',
-      lg: 'rounded-lg'
-    },
-    variant: {
-      outlined: 'border',
-      dense   : ''
-    }
-  },
-  defaultVariants: {
-    color  : 'gray',
-    radius : 'md',
-    variant: 'outlined'
-  }
-}, {
-  responsiveVariants: ['sm', 'md', 'lg']
-});
+export interface CardVariance {
+  color  : 'gray';
+  radius : 'sm' | 'md' | 'lg';
+  variant: 'outlined';
+}
 
-export type CardVariantProps = VariantProps<typeof card>;
+export const getStyle = fromSelectors<CardVariance>([
+  // Radius
+  { radius: 'sm', style: 'rounded-sm' },
+  { radius: 'md', style: 'rounded-md' },
+  { radius: 'lg', style: 'rounded-lg' },
 
-export interface CardProps extends CardVariantProps {
+  // Outlined
+  { variant: 'outlined', style: 'border' },
+  { variant: 'outlined', color: 'gray', style: 'border-gray-200' }
+]);
+
+export interface CardProps extends Partial<CardVariance> {
   className?: string;
   children? : ReactNode;
 }
@@ -37,9 +28,16 @@ export interface CardProps extends CardVariantProps {
 export const Card = ({
   className,
   children,
+  color   = 'gray',
+  radius  = 'md',
+  variant = 'outlined',
   ...props
-}: CardProps) => (
-  <div className={card({ ...props, className })}>
-    {children}
-  </div>
-);
+}: CardProps) => {
+  const variance = { color, radius, variant };
+
+  return (
+    <div className={mergeStyles(getStyle(variance), className)}>
+      {children}
+    </div>
+  );
+};

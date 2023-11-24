@@ -3,7 +3,7 @@ import { Input } from '@/components/Input';
 
 const SignIn = () => (
   <div className="flex flex-col px-4 py-8 gap-8">
-    <h1 className="text-xl font-bold">Sign in</h1>
+    <h1 className="text-2xl font-bold">Sign in</h1>
     
     <div className="flex flex-col gap-4">
       <Input placeholder="Email" />

@@ -14,7 +14,8 @@ export const card = tv({
       lg: 'rounded-lg'
     },
     variant: {
-      outlined: 'border'
+      outlined: 'border',
+      dense   : ''
     }
   },
   defaultVariants: {
@@ -22,6 +23,8 @@ export const card = tv({
     radius : 'md',
     variant: 'outlined'
   }
+}, {
+  responsiveVariants: ['sm', 'md', 'lg']
 });
 
 export type CardVariantProps = VariantProps<typeof card>;

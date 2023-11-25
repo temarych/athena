@@ -5,7 +5,8 @@ import { useForm }     from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button }      from '@/components/Button';
 import { InputField }  from '@/components/InputField';
-import { signIn }      from './action';
+import { Link }        from '@/components/Link';
+import { signIn }      from '@/actions/auth';
 
 export const signInSchema = z.object({
   email   : z.string().email().min(1),
@@ -42,6 +43,11 @@ export const SignInForm = () => {
       <Button type="submit">
         Sign in
       </Button>
+      
+      <p className="text-sm text-gray-400 text-center">
+        {'Don\'t have an account? '}
+        <Link href="/auth/signup">Sign up</Link>
+      </p>
   
       <div className="flex flex-col gap-4">
         <Button variant="outlined" color="gray">

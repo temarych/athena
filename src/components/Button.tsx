@@ -39,6 +39,7 @@ export type ButtonProps     = ButtonBaseProps & Partial<ButtonVariance>;
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   children, 
+  type    = 'button',
   color   = 'blue',
   size    = 'md',
   radius  = 'md',
@@ -48,7 +49,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const variance = { color, size, radius, variant };
 
   return (
-    <button {...props} ref={ref} className={mergeStyles(getStyle(variance), className)}>
+    <button
+      {...props}
+      ref       = {ref}
+      type      = {type}
+      className = {mergeStyles(getStyle(variance), className)}
+    >
       {children}
     </button>
   );

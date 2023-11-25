@@ -1,16 +1,16 @@
-import { Button } from '@/components/Button';
-import { Input }  from '@/components/Input';
+import { Button }     from '@/components/Button';
+import { InputField } from '@/components/InputField';
 
 const SignUp = () => (
   <div className="flex flex-col px-4 py-8 gap-8">
     <h1 className="text-2xl font-bold">Sign up</h1>
     
     <div className="flex flex-col gap-4">
-      <Input placeholder="First name" />
-      <Input placeholder="Last name" />
-      <Input placeholder="Email" />
-      <Input placeholder="Password" />
-      <Input placeholder="Confirm password" />
+      <InputField placeholder="First name" />
+      <InputField placeholder="Last name" />
+      <InputField placeholder="Email" />
+      <InputField placeholder="Password" />
+      <InputField placeholder="Confirm password" />
     </div>
 
     <Button>
